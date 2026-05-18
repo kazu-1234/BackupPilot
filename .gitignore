@@ -1,0 +1,13 @@
+bin/
+obj/
+.vs/
+dist/
+UI_DESIGN.md
+*.user
+*.suo
+*.log
+*.pfx
+*.snk
+.env
+.env.*
+settings.json
