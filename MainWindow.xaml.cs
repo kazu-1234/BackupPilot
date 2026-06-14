@@ -18,7 +18,7 @@ namespace BackupPilot;
 
 public sealed partial class MainWindow : Window
 {
-    private const string CurrentVersion = "v1.2.24";
+    private const string CurrentVersion = "v1.2.25";
     private const string LatestReleaseApiUrl = "https://api.github.com/repos/kazu-1234/BackupPilot/releases/latest";
     private const string ReleasesUrl = "https://github.com/kazu-1234/BackupPilot/releases";
 

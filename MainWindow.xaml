@@ -46,7 +46,7 @@
                             <Border Height="1" Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
                             <StackPanel Spacing="4">
                                 <TextBlock Text="バージョン情報" FontWeight="SemiBold" />
-                                <TextBlock x:Name="VersionTextBlock" Text="BackupPilot v1.2.24" Opacity="0.75" />
+                                <TextBlock x:Name="VersionTextBlock" Text="BackupPilot v1.2.25" Opacity="0.75" />
                             </StackPanel>
                             <Button Content="アップデート確認" Click="CheckUpdateButton_Click" />
                         </StackPanel>

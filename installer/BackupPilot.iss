@@ -1,6 +1,6 @@
 ; BackupPilot インストーラ (Inno Setup 6)
 #define MyAppName "BackupPilot"
-#define MyAppVersion "1.2.9"
+#define MyAppVersion "1.2.25"
 #define MyAppPublisher "BackupPilot"
 #define MyAppExeName "BackupPilot.exe"
 #define PublishDir "..\dist\win-x64"

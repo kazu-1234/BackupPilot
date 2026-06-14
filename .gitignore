@@ -3,6 +3,7 @@ bin/
 obj/
 .vs/
 dist/
+payload.zip
 *.pdb
 
 # Local-only (keep on disk, do not push)
