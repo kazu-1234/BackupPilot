@@ -3,7 +3,7 @@
 #define MyAppVersion "1.2.25"
 #define MyAppPublisher "BackupPilot"
 #define MyAppExeName "BackupPilot.exe"
-#define PublishDir "..\dist\win-x64"
+#define PublishDir "..\dist\v{#MyAppVersion}\win-x64"
 
 [Setup]
 AppId={{A8F3C2E1-9B4D-4F6A-8C7E-1D2B3A4F5E6C}
@@ -13,7 +13,7 @@ AppPublisher={#MyAppPublisher}
 DefaultDirName={autopf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
 DisableProgramGroupPage=yes
-OutputDir=..\dist
+OutputDir=..\dist\v{#MyAppVersion}
 OutputBaseFilename=BackupPilot_Setup_v{#MyAppVersion}
 SetupIconFile=..\BackupPilot.ico
 UninstallDisplayIcon={app}\{#MyAppExeName}

@@ -4,6 +4,9 @@ obj/
 .vs/
 dist/
 payload.zip
+installer/build/payload.zip
+installer/build/bin/
+installer/build/obj/
 *.pdb
 
 # Local-only (keep on disk, do not push)
