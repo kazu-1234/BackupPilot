@@ -11,7 +11,18 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <WindowsPackageType>None</WindowsPackageType>
+    <EnableMsixTooling>true</EnableMsixTooling>
+    <DeployOnBuild>false</DeployOnBuild>
+    <ApplicationIcon>BackupPilot.ico</ApplicationIcon>
+    <Version>1.2.24</Version>
+    <AssemblyVersion>1.2.24.0</AssemblyVersion>
+    <FileVersion>1.2.24.0</FileVersion>
   </PropertyGroup>
+  <ItemGroup>
+    <Content Include="BackupPilot.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="2.0.1" />
   </ItemGroup>

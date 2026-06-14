@@ -1,12 +1,15 @@
-// BackupPilot v1.2.9
+// BackupPilot v1.2.15
 // メイン画面の操作、設定保存、バックアップ実行を管理します。
 
 using System.Collections.ObjectModel;
 using System.Text.Json;
 using BackupPilot.Models;
 using BackupPilot.Services;
+using Microsoft.UI;
+using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Windows.Foundation;
 using Windows.Storage.Pickers;
 using Windows.System;
 using WinRT.Interop;
@@ -15,7 +18,7 @@ namespace BackupPilot;
 
 public sealed partial class MainWindow : Window
 {
-    private const string CurrentVersion = "v1.2.9";
+    private const string CurrentVersion = "v1.2.24";
     private const string LatestReleaseApiUrl = "https://api.github.com/repos/kazu-1234/BackupPilot/releases/latest";
     private const string ReleasesUrl = "https://github.com/kazu-1234/BackupPilot/releases";
 
@@ -31,7 +34,90 @@ public sealed partial class MainWindow : Window
     {
         InitializeComponent();
         Title = "BackupPilot";
+        ApplyWindowIcon();
         _ = LoadSettingsAsync();
+    }
+
+    private void OverwriteModeComboBox_Loaded(object sender, RoutedEventArgs e)
+    {
+        QueueFitComboBoxWidth(OverwriteModeComboBox);
+    }
+
+    private void QueueFitComboBoxWidth(ComboBox comboBox)
+    {
+        DispatcherQueue.TryEnqueue(() => FitComboBoxWidthToSelectedItem(comboBox));
+    }
+
+    private void FitComboBoxWidthToSelectedItem(ComboBox comboBox)
+    {
+        if (Content is not Panel rootPanel)
+        {
+            return;
+        }
+
+        string text = GetComboBoxItemText(comboBox.SelectedItem);
+        if (string.IsNullOrEmpty(text))
+        {
+            return;
+        }
+
+        StackPanel measureHost = new()
+        {
+            Visibility = Visibility.Collapsed,
+            IsHitTestVisible = false
+        };
+        rootPanel.Children.Add(measureHost);
+
+        try
+        {
+            const double chromeWidth = 52;
+            double fontSize = double.IsNaN(comboBox.FontSize) || comboBox.FontSize <= 0 ? 14 : comboBox.FontSize;
+
+            TextBlock measureText = new()
+            {
+                Text = text,
+                FontSize = fontSize,
+                FontFamily = comboBox.FontFamily,
+                FontWeight = comboBox.FontWeight
+            };
+
+            measureHost.Children.Add(measureText);
+            measureText.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+
+            if (measureText.DesiredSize.Width <= 0)
+            {
+                return;
+            }
+
+            double fittedWidth = Math.Ceiling(measureText.DesiredSize.Width) + chromeWidth;
+            comboBox.Width = fittedWidth;
+            comboBox.MinWidth = fittedWidth;
+        }
+        finally
+        {
+            rootPanel.Children.Remove(measureHost);
+        }
+    }
+
+    private static string GetComboBoxItemText(object? item)
+    {
+        return item is ComboBoxItem comboBoxItem
+            ? comboBoxItem.Content?.ToString() ?? string.Empty
+            : item?.ToString() ?? string.Empty;
+    }
+
+    private void ApplyWindowIcon()
+    {
+        string iconPath = Path.Combine(AppContext.BaseDirectory, "BackupPilot.ico");
+        if (!File.Exists(iconPath))
+        {
+            return;
+        }
+
+        IntPtr windowHandle = WindowNative.GetWindowHandle(this);
+        WindowId windowId = Win32Interop.GetWindowIdFromWindow(windowHandle);
+        AppWindow appWindow = AppWindow.GetFromWindowId(windowId);
+        appWindow.SetIcon(iconPath);
     }
 
     private async Task LoadSettingsAsync()
@@ -91,6 +177,8 @@ public sealed partial class MainWindow : Window
         {
             JobsListView.SelectedItem = jobToSelect;
         }
+
+        QueueFitComboBoxWidth(OverwriteModeComboBox);
     }
 
     private void NormalizeSettings()
@@ -222,6 +310,11 @@ public sealed partial class MainWindow : Window
 
     private async void SettingsComboBox_Changed(object sender, SelectionChangedEventArgs e)
     {
+        if (sender == OverwriteModeComboBox)
+        {
+            QueueFitComboBoxWidth(OverwriteModeComboBox);
+        }
+
         await UpdateSettingsFromUiAsync();
     }
 
@@ -396,7 +489,7 @@ public sealed partial class MainWindow : Window
         ApplySettingsFromUi();
         ApplySelectedJobFromUi();
 
-        if (settings.Jobs.Any(job => job.IsEnabled))
+        if (settings.Jobs.Any(job => job.IsEnabled && !string.IsNullOrWhiteSpace(job.SourcePath)))
         {
             return true;
         }

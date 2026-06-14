@@ -8,6 +8,11 @@
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
             </ResourceDictionary.MergedDictionaries>
+            <Style x:Key="TextFitComboBoxStyle" TargetType="ComboBox">
+                <Setter Property="MinWidth" Value="0" />
+                <Setter Property="HorizontalAlignment" Value="Left" />
+                <Setter Property="Padding" Value="10,5,8,7" />
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

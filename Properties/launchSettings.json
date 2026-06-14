@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "BackupPilot (Unpackaged)": {
+      "commandName": "Project",
+      "nativeDebugging": false
+    }
+  }
+}

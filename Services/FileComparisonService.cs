@@ -13,7 +13,7 @@ public sealed class FileComparisonService
     {
         List<BackupPlanEntry> plan = [];
 
-        foreach (BackupJob job in settings.Jobs.Where(job => job.IsEnabled))
+        foreach (BackupJob job in settings.Jobs.Where(job => job.IsEnabled && !string.IsNullOrWhiteSpace(job.SourcePath)))
         {
             plan.AddRange(CreatePlanForJob(settings, job));
         }

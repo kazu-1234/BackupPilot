@@ -1,13 +1,30 @@
+# Build output
 bin/
 obj/
 .vs/
 dist/
+*.pdb
+
+# Local-only (keep on disk, do not push)
+version_history.txt
+*.exe
+
+# Dev / icon generation
+__pycache__/
+*.pyc
+build_icon.py
+BackupPilot.jpg
+BackupPilot_icon_preview.png
+
+# Secrets / runtime data
+.env
+.env.*
+settings.json
 UI_DESIGN.md
+
+# IDE
 *.user
 *.suo
 *.log
 *.pfx
 *.snk
-.env
-.env.*
-settings.json

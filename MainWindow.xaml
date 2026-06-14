@@ -46,7 +46,7 @@
                             <Border Height="1" Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
                             <StackPanel Spacing="4">
                                 <TextBlock Text="バージョン情報" FontWeight="SemiBold" />
-                                <TextBlock x:Name="VersionTextBlock" Text="BackupPilot v1.2.9" Opacity="0.75" />
+                                <TextBlock x:Name="VersionTextBlock" Text="BackupPilot v1.2.24" Opacity="0.75" />
                             </StackPanel>
                             <Button Content="アップデート確認" Click="CheckUpdateButton_Click" />
                         </StackPanel>
@@ -127,19 +127,45 @@
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
 
-                            <TextBlock Text="実行設定" FontSize="18" FontWeight="SemiBold" />
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="実行設定" FontSize="18" FontWeight="SemiBold" VerticalAlignment="Center" />
+                                <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                                    <Button
+                                        x:Name="RunButton"
+                                        Content="開始"
+                                        MinWidth="72"
+                                        Style="{ThemeResource AccentButtonStyle}"
+                                        Click="RunButton_Click" />
+                                    <Button
+                                        x:Name="CancelButton"
+                                        Content="停止"
+                                        MinWidth="72"
+                                        IsEnabled="False"
+                                        Background="#C42B1C"
+                                        Foreground="White"
+                                        Click="CancelButton_Click" />
+                                </StackPanel>
+                            </Grid>
                             <TextBox x:Name="JobNameTextBox" Grid.Row="1" Header="名称" PlaceholderText="空欄の場合はコピー元名を使用" TextChanged="JobTextBox_Changed" />
                             <StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="8">
-                                <StackPanel Width="160" Spacing="4">
+                                <StackPanel Spacing="4">
                                     <TextBlock Text="コピー方式" />
-                                    <ComboBox x:Name="CopyModeComboBox" Width="160" MinWidth="0" SelectionChanged="SettingsComboBox_Changed">
+                                    <ComboBox x:Name="CopyModeComboBox" Width="108" MinWidth="0" HorizontalAlignment="Left" SelectionChanged="SettingsComboBox_Changed">
                                         <ComboBoxItem Content="差分コピー" />
                                         <ComboBoxItem Content="強制コピー" />
                                     </ComboBox>
                                 </StackPanel>
-                                <StackPanel Width="160" Spacing="4">
+                                <StackPanel Spacing="4">
                                     <TextBlock Text="上書き方針" />
-                                    <ComboBox x:Name="OverwriteModeComboBox" Width="160" MinWidth="0" SelectionChanged="SettingsComboBox_Changed">
+                                    <ComboBox
+                                        x:Name="OverwriteModeComboBox"
+                                        Style="{StaticResource TextFitComboBoxStyle}"
+                                        Loaded="OverwriteModeComboBox_Loaded"
+                                        SelectionChanged="SettingsComboBox_Changed">
                                         <ComboBoxItem Content="上書きする" />
                                         <ComboBoxItem Content="既存ファイルはスキップ" />
                                     </ComboBox>
@@ -148,8 +174,6 @@
                             <StackPanel Grid.Row="3" Orientation="Horizontal" Spacing="8">
                                 <Button x:Name="ExportJsonButton" Content="JSON保存" Click="ExportJsonButton_Click" />
                                 <Button x:Name="ImportJsonButton" Content="JSON読込" Click="ImportJsonButton_Click" />
-                                <Button x:Name="RunButton" Content="開始" Click="RunButton_Click" />
-                                <Button x:Name="CancelButton" Content="停止" Click="CancelButton_Click" IsEnabled="False" />
                             </StackPanel>
                         </Grid>
                     </Border>
